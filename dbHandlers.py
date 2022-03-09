@@ -18,10 +18,10 @@ def create_connection(host_name, user_name, user_password, db_name):
     return connection
 
 
-def any_product(sku, cursor, site):
+def any_product(model, cursor, site):
 
-    print(sku)
-    cursor.execute(f"SELECT * from products  WHERE sku = '{str(sku)}' and from_site = '{site}'")
+    print(model + ' уже есть')
+    cursor.execute(f"SELECT * from products  WHERE model = '{str(model)}' and from_site = '{site}'")
     have = cursor.fetchone()
     return have
 
@@ -57,7 +57,7 @@ def add_product(product):
                 conn.commit()
                 print(product['name']+ ' parsed')
             else:
-                cursor.execute(f'UPDATE products set stock="{product["stock"]}", price="{product["price"]}", special_price = { product["special_price"]}  WHERE model="{product["model"]}"')
+                cursor.execute(f'UPDATE products set stock="{product["stock"]}", price="{product["price"]}", special_price ="{product["special_price"]}"  WHERE model="{product["model"]}"')
                 print(product['name'] + ' updated')
                 conn.commit()
     cursor.close()

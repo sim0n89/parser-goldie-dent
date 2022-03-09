@@ -156,29 +156,35 @@ def get_product_data(html):
         product['sku'] = ''
         for atribute in atributes:
 
-            atr_name = atribute.find_all('td')[0].text
-            atr_value = atribute.find_all('td')[1].text
+            atr_name = atribute.find_all('td')[0].text.strip()
+            atr_value = atribute.find_all('td')[1].text.strip()
             if atr_name == 'Производитель':
-                product['brend'] = atr_value
+                product['brend'] = atr_value.replace('\n', '|')
             if atr_name == 'Артикул':
                 product['sku'] = atr_value
                 continue
             product['atrs'] = product['atrs'] + atr_name + ':' + atr_value + '|'
 
     except:
-        pass
+        product['atrs'] = ''
 
     try:
         main_properties = soup.find('div', class_='main-properties').find_all('dt')
         for prop in main_properties:
 
-            value = prop.find_next('dd').text
+            value = prop.find_next('dd').text.strip()
+            if prop.text == 'Производитель':
+                product['brend'] = value.replace('\n', '')
+                continue
             if prop.text == 'Код товара':
                 product['model'] = value
+                continue
             if prop.text == 'Артикул':
                 product['sku'] = value
+                continue
             if prop.text == 'Наличие на складе':
                 product['stock'] = value.replace('\n', '')
+                continue
     except:
         pass
 
