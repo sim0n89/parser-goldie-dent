@@ -13,6 +13,7 @@ from random import uniform
 from mysql.connector import MySQLConnection, Error
 import mysql.connector
 import dbHandlers
+import csvWriter
 
 
 logging.basicConfig(
@@ -199,6 +200,7 @@ def make_all(link):
     dbHandlers.add_product(data)
 
 
+
 def main():
     # url = 'https://goldident.ru/manufacturer/'
     # brands = get_all_brands(get_html(url))
@@ -207,9 +209,10 @@ def main():
     #     products = products + get_products(brand)
     # with open(linksfile, "w") as file:
     #     file.write(products)
-    all_links = open(linksfile).readlines()
-    with Pool(3) as p:
-        p.map(make_all, all_links)
+    # all_links = open(linksfile).readlines()
+    # with Pool(3) as p:
+    #     p.map(make_all, all_links)
+    csvWriter.main()
 
 
 if __name__ == '__main__':
